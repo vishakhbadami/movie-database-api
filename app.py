@@ -28,15 +28,10 @@ class Genre(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
 
-# ===================== Wrap the creation of tables inside the app context =====================
 
-# Create the tables in the database
 with app.app_context():
     db.create_all()
 
-# ===================== Add the API code below this line =====================
-
-# POST API to add a new movie
 @app.route('/movie', methods=['POST'])
 def add_movie():
     data = request.get_json()  # Get JSON data from the request body
@@ -49,7 +44,6 @@ def add_movie():
     db.session.commit()  # Commit the changes to the database
     return jsonify({'message': 'Movie added successfully'}), 201
 
-# GET and PUT API to fetch a movie by ID and update it
 @app.route('/movie/<int:id>', methods=['GET', 'PUT'])
 def movie_details(id):
     movie = Movie.query.get_or_404(id)  # Get movie by ID, or return 404 if not found
